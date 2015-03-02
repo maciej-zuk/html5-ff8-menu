@@ -30,10 +30,6 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       },
-      js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['jshint']
-      },
       styles: {
         files: [
           '<%= yeoman.app %>/styles/{,*/}*.css',
@@ -144,17 +140,6 @@ module.exports = function (grunt) {
     clean: {
       dist: ['.tmp', '<%= yeoman.dist %>/*'],
       server: '.tmp'
-    },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        '<%= yeoman.app %>/scripts/{,*/}*.js',
-        '!<%= yeoman.app %>/scripts/vendor/*',
-        'test/spec/{,*/}*.js'
-      ]
     },
     useminPrepare: {
       html: '<%= yeoman.app %>/index.html',
@@ -322,8 +307,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'jshint',
-    // 'test'
     'build'
   ]);
 };
