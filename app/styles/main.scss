@@ -1,0 +1,10 @@
+body{
+  background: #aaa;
+  padding: 10px;
+}
+@font-face {
+    font-family: FFVIII;
+    font-weight: normal;
+    font-style: normal;
+    src: url('../FF8.ttf') format('truetype'), url('../FF8.svg') format('svg');
+}

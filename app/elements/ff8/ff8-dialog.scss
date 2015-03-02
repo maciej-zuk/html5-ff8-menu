@@ -1,0 +1,45 @@
+/* Shadow DOM CSS Cheat Sheet */
+/* http://robdodson.me/blog/2014/04/10/shadow-dom-css-cheat-sheet */
+/* styles for the custom element itself - lowest specificity */
+
+.dialog {
+    background: linear-gradient(to right, #464442 0%, #60605d 140px, #60605d 100%);
+    padding: 0.4em 0.5em 0.9em 0.5em;
+    border-top: 0.1em solid #888;
+    border-left: 0.1em solid #888;
+    border-right: 0.1em solid #383838;
+    border-bottom: 0.1em solid #383838;
+    outline: 0.1em solid #282828;
+    display: inline-block;
+    margin: 5px;
+}
+
+.light-text {
+    font-family: FFVIII;
+    font-size: 26px;
+    color: #eee;
+    text-shadow: 0.05em 0.05em 1px rgba(168, 168, 168, 0.5), 0.125em 0.125em 1px rgba(50, 50, 50, 1);
+    font-weight: lighter;
+    letter-spacing: 1px;
+    line-height: 140%;
+}
+
+::content {
+    location {
+    	&:before{
+    		content: "["
+    	}
+		&:after{
+    		content: "]"
+    	}
+        padding: 0 0.25em;
+        color: #68b0e8;
+        text-shadow: 0.05em 0.05em 1px rgba(64, 120, 176, 0.5), 0.125em 0.125em 1px rgba(50, 50, 50, 1);
+    }
+    person {
+    	display: block;
+    }
+    ff8-print {
+    	display: block;
+    }
+}

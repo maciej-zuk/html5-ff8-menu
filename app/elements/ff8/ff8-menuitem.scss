@@ -1,0 +1,14 @@
+/* Shadow DOM CSS Cheat Sheet */
+/* http://robdodson.me/blog/2014/04/10/shadow-dom-css-cheat-sheet */
+/* styles for the custom element itself - lowest specificity */
+
+#menuitem {
+    position: relative;
+    #hoverIcon{
+      position: absolute;
+      width: 70px;
+      height: 50px;
+      background: url('../../images/hand.png');
+      left: -75px;
+  }
+}

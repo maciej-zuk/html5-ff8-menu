@@ -1,0 +1,233 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+
+
+<polymer-element name="ff8-box" attributes="autoshow">
+  <template>
+    <link rel="stylesheet" href="ff8-dialog.css">
+    <div class="dialog light-text" unresolved>
+      <content id="content"></content>
+    </div>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        autoshow: false,
+        domReady: function(){
+          if(this.autoshow){
+            this.show();
+          }else{
+            this.hide();
+          }
+        },
+        show: function(){
+          var $this = $(this);
+          $this.show();
+          $this.find("ff8-print").each(function(idx,node){
+            node.play();
+          });
+          $(document).one('mousedown', this.hide.bind(this));
+        },
+        hide: function(){
+          var $this = $(this);
+          $this.hide();
+        }
+      });
+    })();
+  </script>
+</polymer-element>
+
+
+<polymer-element name="ff8-print" attribute="delays offset autoplay">
+  <template>
+    <content></content>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        delays: 20,
+        offset: 0,
+        autoplay: true,
+        attached: function(){
+            var $this = $(this);
+            var w = $this.width()+5;
+            var h = $this.height()+5;
+            var html = $this.html();
+            $this.css({"min-width": w, "min-height": h});
+            this.n = 0;
+            $this.html("");
+            var delays = Number(this.delays);
+            this.printer = function(){
+              if(this.n<=html.length){
+                $this.html(html.substr(0, this.n++));
+                if(html[this.n] === "<"){
+                  while(html[this.n] !== ">" && this.n<=html.length){
+                    this.n++
+                  }
+                }
+                setTimeout(this.printer, delays);
+              }
+            }.bind(this);
+            if(this.autoplay){
+              setTimeout(this.printer, Number(this.offset));
+            }
+        },
+        play: function(){
+          this.n = 0;
+          this.printer();
+        }
+      });
+    })();
+  </script>
+</polymer-element>
+
+<polymer-element name="ff8-panel" attributes="short caption lowpadding">
+  <template>
+    <link rel="stylesheet" href="ff8-panel.css">
+    <div id="panel" class="light-text">
+      <div id="title"></div>
+      <content></content>
+    </div>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        short: false,
+        lowpadding: false,
+        domReady: function(){
+          if(this.short){
+            $(this.$.panel).addClass('short');
+          }
+          if(this.lowpadding){
+            $(this.$.panel).addClass('low-padding');
+          }
+          $(this.$.title).html(this.caption);
+        }
+      });
+    })();
+  </script>
+</polymer-element>
+
+<polymer-element name="ff8-rooster" attributes="name hpCurrent hpMax level nextExp currentExp">
+  <template>
+      <ff8-panel short caption="status" flex two vertical layout>
+        <div horizontal layout flex class="{{ {hideChild: !name } | tokenList }}">
+            <div flex>{{name}}</div>
+            <div flex>² <div right>{{level}}</div></div>
+            <div flex right>HP {{hpCurrent}}/{{hpMax}}</div>
+        </div>
+        <div horizontal layout flex class="{{ {hideChild: !name } | tokenList }}">
+            <div flex></div>
+            <div flex>Current EXP</div>
+            <div flex right>{{currentExp}} ³</div>
+        </div>
+        <div horizontal layout flex class="{{ {hideChild: !name } | tokenList }}">
+            <div flex></div>
+            <div flex>Next LEVEL</div>
+            <div flex right>{{nextExp}} ³</div>
+        </div>
+      </ff8-panel>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+      });
+    })();
+  </script>
+</polymer-element>
+
+
+<polymer-element name="ff8-time">
+  <template>{{minutesDisplayed}}: {{secondsDisplayed}}</template>
+  <script>
+    (function () {
+      Polymer({
+        seconds: 0,
+        minutes: 0,
+        secondsDisplayed: "00",
+        minutesDisplayed: " 0",
+        attached: function(){
+          this.timeIv = setInterval(function(){
+            this.seconds++;
+            if(this.seconds>=60){
+              this.seconds = 0;
+              this.minutes++;
+            }
+            if(this.seconds<10){
+              this.secondsDisplayed = "0"+this.seconds;
+            }else{
+              this.secondsDisplayed = this.seconds
+            }
+            if(this.minutes<10){
+              this.minutesDisplayed = " "+this.minutes;
+            }else{
+              this.minutesDisplayed = this.minutes
+            }
+
+          }.bind(this), 1000);
+        },
+        detached: function(){
+          clearInterval(this.timeIv);
+        }
+      });
+    })();
+  </script>
+</polymer-element>
+
+<polymer-element name="ff8-help">
+  <template>{{help}}</template>
+  <script>
+    (function () {
+      var unique = 0;
+      Polymer({
+        help: "",
+        attached: function(){
+          this.uniqueId = unique++;
+          $(document).on('ff8.set-help.'+this.uniqueId, function(event, data){
+            this.help = data.msg;
+          }.bind(this));
+        },
+        detached: function(){
+           $(document).off('ff8.set-help.'+this.uniqueId);
+        }
+      });
+    })();
+  </script>
+</polymer-element>
+
+<polymer-element name="ff8-menuitem" attributes="value help">
+  <template>
+    <link rel="stylesheet" href="ff8-menuitem.css">
+    <div id="menuitem">
+      <div id="hoverIcon"></div>
+      {{value}}
+    </div>
+  </template>
+  <script>
+    (function () {
+      var unique = 0;
+      Polymer({
+        value: "",
+        hovered: false,
+        attached: function(){
+          $(this.$.hoverIcon).hide();
+          this.uniqueId = unique++;
+          $(document).on('ff8.unhover.'+this.uniqueId, function(){
+            $(this.$.hoverIcon).hide();
+          }.bind(this));
+          $(this).hover(function(){
+            $(document).trigger('ff8.set-help', {msg: this.help});
+            $(document).trigger('ff8.unhover');
+            $(this.$.hoverIcon).show();
+          }.bind(this));
+          $(this).click(function(){
+            $("#menuInfo")[0].show();
+          });
+        },
+        detached: function(){
+           $(document).off('ff8.unhover.'+this.uniqueId);
+        }
+      });
+    })();
+  </script>
+</polymer-element>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>poly foo</title>
+        <!-- build:css styles/main.css -->
+        <link rel="stylesheet" href="/styles/main.css">
+        <!-- endbuild-->
+        <!-- build:js({.tmp, app}) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+        <script src=""></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- will be replaced with elements/elements.vulcanized.html -->
+        <link rel="import" href="elements/elements.html">
+        <!-- endreplace-->
+    </head>
+    <body unresolved>
+        <div horizontal layout style="height: 600px; width: 800px">
+            <div vertical layout style="height: 600px;" flex three>
+                <ff8-panel caption="help">
+                <ff8-help></ff8-help>
+                </ff8-panel>
+                <ff8-rooster>
+                </ff8-rooster>
+                <ff8-rooster name="Squall" hpCurrent="400" hpMax="400" level="5" nextExp="500" currentExp="6500">
+                </ff8-rooster>
+                <ff8-rooster>
+                </ff8-rooster>
+                <ff8-panel>
+                Balamb
+                </ff8-panel>
+            </div>
+            <div vertical layout style="height: 600px;" flex>
+                <ff8-panel flex three>
+                <ff8-menuitem value="Junction" help="Junction menu"></ff8-menuitem>
+                <ff8-menuitem value="Item" help="Item menu"></ff8-menuitem>
+                <ff8-menuitem value="Magic" help="Magic menu"></ff8-menuitem>
+                <ff8-menuitem value="Status" help="Status menu"></ff8-menuitem>
+                <ff8-menuitem value="GF" help="GF menu"></ff8-menuitem>
+                <ff8-menuitem value="Ability" help="Ability menu"></ff8-menuitem>
+                <ff8-menuitem value="Switch" help="Switch menu"></ff8-menuitem>
+                <ff8-menuitem value="Card" help="Card menu"></ff8-menuitem>
+                <ff8-menuitem value="Config" help="Config menu"></ff8-menuitem>
+                <ff8-menuitem value="Tutorial" help="Tutorial menu"></ff8-menuitem>
+                <ff8-menuitem value="Save" help="Save menu"></ff8-menuitem>
+                </ff8-panel>
+                <ff8-panel flex self-stretch lowpadding>
+                <span layout vertical style="height: 100px">
+                <span flex nine>PLAY <ff8-time></ff8-time></span>
+                <span flex right>5000≠</span>
+                </span>
+                </ff8-panel>
+            </div>
+        </div>
+        <ff8-box style="position: absolute; top: 443px;  left: 48px;" id="menuInfo">
+            <person>Mistrall</person>
+            <ff8-print delays="20">
+            {OOooopss...<br><location>Menu items</location> are not yet clickable!}
+            </ff8-print>
+        </ff8-box>
+        <!-- build:js scripts/app.js -->
+        <script src="scripts/app.js"></script>
+        <!-- endbuild-->
+    </body>
+</html>
